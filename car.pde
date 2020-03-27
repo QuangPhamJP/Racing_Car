@@ -5,8 +5,8 @@ var enable_click_tutorial = true;
 var enable_t_click_game = true;
 var enable_t_click_tutorial = true;
 var delay = millis();
-var finish_ = false;
 var message = 0;
+var finish_ = false;
 
 
 //Stone
@@ -100,6 +100,7 @@ void draw(){
 			initial();
 			initial_road();
 			var count_get_out = 0;
+			finish_ = false;
 			
 			//condition noloop
 			if(finish(x,x1,x2)){
@@ -135,57 +136,61 @@ void draw(){
 			rect(x1_Stone, y1_Stone, 50, 50);
 			rect(x2_Stone, y2_Stone, 60, 60);
 			
-			
-			if(!finish_){
-				//Dieu kien de xe chay 
-				//Neu xe ko lao ra ngoai le` va khong cham vao cac xe khac thi xe do chay nguoc lai dung yen va tao vu no
-				if(!handling_pavement(y) 
-				&& !handling_collision(x,y,w,h,x1,y1,w1,h) 
-				&& !handling_collision(x,y,w,h,x2,y2,w2,h) 
-				&& !handling_collision(x,y,w,h,x_Stone,y_Stone,40,40)
-				&& !handling_collision(x,y,w,h,x1_Stone,y1_Stone,50,50)
-				&& !handling_collision(x,y,w,h,x2_Stone,y2_Stone,60,60)){
+
+			//Dieu kien de xe chay 
+			//Neu xe ko lao ra ngoai le` va khong cham vao cac xe khac thi xe do chay nguoc lai dung yen va tao vu no
+			if(!handling_pavement(y) 
+			&& !handling_collision(x,y,w,h,x1,y1,w1,h) 
+			&& !handling_collision(x,y,w,h,x2,y2,w2,h) 
+			&& !handling_collision(x,y,w,h,x_Stone,y_Stone,40,40)
+			&& !handling_collision(x,y,w,h,x1_Stone,y1_Stone,50,50)
+			&& !handling_collision(x,y,w,h,x2_Stone,y2_Stone,60,60)){
+				if(!finish_){
 					x = x+ car.run_x();
 					y = y+floor(random(1,9));
 				}
-				else{
-					count_get_out++;
-				}
-				
-				if(!handling_pavement(y1) 
-				&& !handling_collision(x1,y1,w1,h,x,y,w,h) 
-				&& !handling_collision(x1,y1,w1,h,x2,y2,w2,h)
-				&& !handling_collision(x1,y1,w1,h,x_Stone,y_Stone,40,40)
-				&& !handling_collision(x1,y1,w1,h,x1_Stone,y1_Stone,50,50)
-				&& !handling_collision(x1,y1,w1,h,x2_Stone,y2_Stone,60,60)){
+			}
+			else{
+				count_get_out++;
+			}
+			
+			if(!handling_pavement(y1) 
+			&& !handling_collision(x1,y1,w1,h,x,y,w,h) 
+			&& !handling_collision(x1,y1,w1,h,x2,y2,w2,h)
+			&& !handling_collision(x1,y1,w1,h,x_Stone,y_Stone,40,40)
+			&& !handling_collision(x1,y1,w1,h,x1_Stone,y1_Stone,50,50)
+			&& !handling_collision(x1,y1,w1,h,x2_Stone,y2_Stone,60,60)){
+				if(!finish_){
 					x1 =  x1+ car1.run_x();
 					y1 = y1+floor(random(-2,3));
 				}
-				else{
-					count_get_out++;
-				}
-				
-				if(!handling_pavement(y2) 
-				&& !handling_collision(x2,y2,w2,h,x,y,w,h) 
-				&& !handling_collision(x2,y2,w2,h,x1,y1,w1,h)
-				&& !handling_collision(x2,y2,w2,h,x_Stone,y_Stone,40,40)
-				&& !handling_collision(x2,y2,w2,h,x1_Stone,y1_Stone,50,50)
-				&& !handling_collision(x2,y2,w2,h,x2_Stone,y2_Stone,60,60)){
+			}
+			else{
+				count_get_out++;
+			}
+			
+			if(!handling_pavement(y2) 
+			&& !handling_collision(x2,y2,w2,h,x,y,w,h) 
+			&& !handling_collision(x2,y2,w2,h,x1,y1,w1,h)
+			&& !handling_collision(x2,y2,w2,h,x_Stone,y_Stone,40,40)
+			&& !handling_collision(x2,y2,w2,h,x1_Stone,y1_Stone,50,50)
+			&& !handling_collision(x2,y2,w2,h,x2_Stone,y2_Stone,60,60)){
+				if(!finish_){
 					x2 = x2 + car2.run_x();
 					y2 = y2+floor(random(-3,3));
 				}
-				else{
-					count_get_out++;
+			}
+			else{
+				count_get_out++;
+			}
+			
+			if(count_get_out >=3){
+				if(message == 0){
+					println("No winner");
 				}
-				
-				if(count_get_out ==3){
-					if(message == 0){
-						println("No winner");
-					}
-					message = 1;
-					if(delay+3000 < millis()){
-						start = false;	
-					}
+				message = 1;
+				if(delay+3000 < millis()){
+					start = false;
 				}
 			}
 		}
@@ -204,9 +209,8 @@ void draw(){
 				//Refresh information 
 				message = 0; //show only one message when round finished
 				delay = millis(); //Update delay
-				finish_ = false;
 				enable_click_game = true;
-				enable_click_tutorial = true;
+				enable_click_tutorial = true;		
 			}
 		}
 
